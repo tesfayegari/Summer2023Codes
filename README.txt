@@ -17,6 +17,7 @@ HTML Class Demo and Notes
  audio =>audio
  new line => br
  horizontal line => hr
+ iframe - brings content from another site, example embedding youtube video to a site
  
  
 Form HTML elements 
@@ -25,6 +26,15 @@ Form HTML elements
  dropdowns 
  radio buttons 
  checkbox ....
+
+ for text box, radio button, checkbox, buttons, date and time picker, ...  we use input element 
+ 
+
+
+
+ REFERENCE 
+https://www.w3schools.com/html/
+ https://www.w3schools.com/TAGS/default.asp
 
  
 
