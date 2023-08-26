@@ -6,20 +6,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Class work</title>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+        li {
+            float: left;
+        }
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            padding: 1em;
+        }
+        li a:hover {
+            background-color: #111;
+        }
+        .active {
+            background-color: #04AA6D;
+        }
+
         #main {
             width: 80%;
             margin: auto;
         }
+
         img {
             width: 20%;
+            border-radius: 1em;
         }
-       
+
+        .newsParent h3,
+        .newsParent p {
+            width: 80%;
+        }
+
+        .newsParent h3 {
+            float: right;
+        }
+
+        img {
+            float: left;
+        }
+
+        .newsParent {
+            display: table;
+            padding: 10px;
+        }
+
+        .newsParent p {
+            display: inline;
+
+        }
     </style>
 
     <!-- <link rel="stylesheet" href="custom.css"> -->
 </head>
 
 <body>
+    <ul>
+        <li><a class="active" href="#home">Home</a></li>
+        <li><a href="#news">News</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about">About</a></li>
+    </ul>
 
     <div id="main">
         <h1>Class Work</h1>
