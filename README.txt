@@ -62,6 +62,25 @@ element selector
  }
 
 
+ javaScript - Programming language (part of web development which adds behavior to the web page )
+
+   Agenda 
+      
+      Statment 
+      variables (data type)
+      Operation (Mathematical and logical)
+      conditional statement 
+      Repetition/Loop
+      Function
+      Object Oriented
+      Events and handlers 
+
+
+
+
+
+
+
 
 
 
