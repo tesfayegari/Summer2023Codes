@@ -19,6 +19,13 @@
         </div>
 
         <div class="mb-3 mt-3">
+            <h3>Class students list</h3>
+            <ol class="list-group list-group-numbered" id="students">
+
+            </ol>
+        </div>
+
+        <div class="mb-3 mt-3">
             <label for="number1" class="form-label">First Number:</label>
             <input type="number" class="form-control" id="number1" placeholder="First number">
         </div>
@@ -29,19 +36,142 @@
 
         <div class="mb-3">
             <label for="answer" class="form-label">Result:</label>
-            <input type="number" class="form-control" id="answer" disabled>
+            <input type="text" class="form-control" id="answer" disabled>
         </div>
-        <button type="submit" class="btn btn-primary">Add</button>
-        <button type="submit" class="btn btn-primary">Subtract</button>
-        <button type="submit" class="btn btn-primary">Divide</button>
-        <button type="submit" class="btn btn-primary">Multiply</button>
+        <button type="submit" class="btn btn-primary" onclick="addNumber()">Add</button>
+        <button type="submit" class="btn btn-primary" onclick="subtractNumber()">Subtract</button>
+        <button type="submit" class="btn btn-primary" onclick="divideNumber()">Divide</button>
+        <button type="submit" class="btn btn-primary" onclick="multiplyNumber()">Multiply</button>
 
+        <br>
+        <hr>
+        <button type="submit" class="btn btn-success" onclick="calculate('add')">Add</button>
+        <button type="submit" class="btn btn-success" onclick="calculate('subtract')">Subtract</button>
+        <button type="submit" class="btn btn-success" onclick="calculate('multiply')">Multiply</button>
+        <button type="submit" class="btn btn-success" onclick="calculate('divide')">Divide</button>
+
+        <hr>
+        <button type="submit" class="btn btn-dark" onclick="displayStudents()">Display Students</button>
+        <button type="submit" class="btn btn-warning" onclick="displayStudents2()">Display Students2</button>
 
     </div>
 
     <script>
         //alert("This is a message from internal js");
-        a="Tesfaye";
+        //Variables 
+        let students = [
+            {
+                name: "Kevin Thomas",
+                phone: "444-676-9876"
+            },
+            {
+                name: "John Do",
+                phone: "556-987-5432"
+            },
+            {
+                name: "Bob Lou",
+                phone: "987-765-5432"
+            },
+            {
+                name: "Jason Dee",
+                phone: "556-987-5432"
+            },
+            {
+                name: "Thomas Lee",
+                phone: "987-765-5432"
+            }
+        ];
+
+        function addNumber() {
+            let num1 = document.getElementById('number1').value;
+            let num2 = document.getElementById('number2').value;
+
+            let result = num1 * 1 + num2 * 1;
+            document.getElementById('answer').value = result;
+        }
+        function subtractNumber() {
+            let num1 = document.getElementById('number1').value;
+            let num2 = document.getElementById('number2').value;
+
+            let result = num1 * 1 - num2 * 1;
+            document.getElementById('answer').value = result;
+        }
+        function divideNumber() {
+            let num1 = document.getElementById('number1').value;
+            let num2 = document.getElementById('number2').value;
+
+            let result = num1 * 1 / num2 * 1;
+            document.getElementById('answer').value = result;
+        }
+        function multiplyNumber() {
+            let num1 = document.getElementById('number1').value;
+            let num2 = document.getElementById('number2').value;
+
+            let result = num1 * 1 * num2 * 1;
+            document.getElementById('answer').value = result;
+        }
+
+        function calculate(op) {
+            let num1 = document.getElementById('number1').value;
+            let num2 = document.getElementById('number2').value;
+            let result;
+
+            if (op == 'add') {
+                result = num1 * 1 + num2 * 1;
+            } else if (op == 'subtract') {
+                result = num1 * 1 - num2 * 1;
+            } else if (op == 'multiply') {
+                result = num1 * 1 * num2 * 1;
+            } else if (op == 'divide') {
+                result = num1 * 1 / num2 * 1;
+            } else {
+                result = "Wrong operator";
+            }
+            document.getElementById('answer').value = result;
+
+        }
+        function calculate2(op, num1 = 0, num2 = 0) {
+            let result;
+
+            if (op == 'add') {
+                result = num1 * 1 + num2 * 1;
+            } else if (op == 'subtract') {
+                result = num1 * 1 - num2 * 1;
+            } else if (op == 'multiply') {
+                result = num1 * 1 * num2 * 1;
+            } else if (op == 'divide') {
+                result = num1 * 1 / num2 * 1;
+            } else {
+                result = "Wrong operator";
+            }
+            return result;
+        }
+
+        function displayStudents() {
+            // <li class="list-group-item">First student (Phone1)</li>
+            let mystudentsHtml = '';
+            for (let i = 0; i < students.length; i = i + 1) {
+                //     console.log("Students " + (i + 1) + " is ", students[i]);
+                mystudentsHtml = mystudentsHtml + '<li class="list-group-item">' + students[i].name + ' ( ' + students[i].phone + ' )' + '</li>';
+            }
+
+            document.getElementById('students').innerHTML = mystudentsHtml;
+        }
+        //same as above but simplified 
+        function displayStudents2() {
+            // <li class="list-group-item">First student (Phone1)</li>
+            let mystudentsHtml = '';
+            for (let st of students) {
+                //     console.log("Students " + (i + 1) + " is ", students[i]);
+                mystudentsHtml += `<li class="list-group-item">${st.name} (${st.phone})</li>`;
+            }
+
+            document.getElementById('students').innerHTML = mystudentsHtml;
+        }
+
+
+
+
     </script>
 
 
