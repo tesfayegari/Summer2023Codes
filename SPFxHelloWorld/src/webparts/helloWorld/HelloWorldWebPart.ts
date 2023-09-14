@@ -27,71 +27,173 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
   // private _isDarkTheme: boolean = false;
   // private _environmentMessage: string = '';
   employees: any[];
-
+  current: number;
+  
   public render(): void {
     SPComponentLoader.loadCss("https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css");
+    const MONTH = ["January", "February", "March", "April", "May", "June", "July", "August", "Septemeber", "October", "November", "December"];
+    let currentMonth = (new Date()).getMonth();
+    this.current = currentMonth;
+    
+    let empHtml='';
+ 
+     const filteredEmps = this.employees.filter((e) => {       
+       return (new Date(e.DateOfBirth)).getMonth() == currentMonth;
+     });
+     console.log('Sorted Employees', filteredEmps);
+ 
+     const emps = filteredEmps.sort((e1, e2) => {
+       const d1 = (new Date(e1.DateOfBirth)).getDate;
+       const d2 = (new Date(e2.DateOfBirth)).getDate;
+       
+       if (d1 < d2)
+         return -1;
+       if (d1 > d2)
+         return 1;
+       return 0;
+     });
+     console.log('Sorted Employees', emps);
+ 
+ 
+     for (let e of emps) {
+ 
+       const dob = new Date(e.DateOfBirth);
+       const date = dob.getDate();
+       const month = dob.getMonth();
+ 
+       empHtml += `<div class="col-md-3 mb-2">
+                       <div class="card">
+                           <img src="${this.context.pageContext.site.absoluteUrl}/_layouts/15/userphoto.aspx?size=L&username=${e.Employee.EMail}"
+                               class="card-img-top" alt="...">
+                           <div class="card-body">
+                               <p class="card-text">Happy Birthday, ${e.Employee.Title}</p>
+                               <p class="card-text">${MONTH[month]} ${date}</p>
+                           </div>
+                       </div>
+                   </div>`;
+ 
+     }
 
-
+    //this.renderCurrentData(currentMonth);
 
     this.domElement.innerHTML = `
     <section class="${styles.helloWorld} ${!!this.context.sdks.microsoftTeams ? styles.teams : ''}">
-      <h1>Employee Birthdays</h1>
+      <h1>Employee's ${MONTH[currentMonth]} Birthdays</h1>
+      <div class="row">   
+        ${empHtml}             
+      </div>
       <div class="row">
-      <div class="col-md-3">
-          <div class="card">
-              <img src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg"
-                  class="card-img-top" alt="...">
-              <div class="card-body">
-                  <p class="card-text">Happy Birthday John Do</p>
-                  <p class="card-text">September 20</p>
-              </div>
-          </div>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item disabled"><a class="page-link" href="#">${MONTH[currentMonth]}</a></li>            
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
-      <div class="col-md-3">
-          <div class="card">
-              <img src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg"
-                  class="card-img-top" alt="...">
-              <div class="card-body">
-                  <p class="card-text">Happy Birthday John Do</p>
-                  <p class="card-text">September 20</p>
-              </div>
-          </div>
+     </section>`;
+  }
+/*
+  private renderCurrentData(currentMonth: number) {
+    const MONTH = ["January", "February", "March", "April", "May", "June", "July", "August", "Septemeber", "October", "November", "December"];
+    let empHtml = this.generateHtml(currentMonth);
+    this.current = currentMonth;
+    this.domElement.innerHTML = `
+    <section class="${styles.helloWorld} ${!!this.context.sdks.microsoftTeams ? styles.teams : ''}">
+      <h1>Employee's ${MONTH[currentMonth]} Birthdays</h1>
+      <div class="row">   
+        ${empHtml}             
       </div>
-      <div class="col-md-3">
-          <div class="card">
-              <img src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg"
-                  class="card-img-top" alt="...">
-              <div class="card-body">
-                  <p class="card-text">Happy Birthday John Do</p>
-                  <p class="card-text">September 20</p>
-              </div>
-          </div>
+      <div class="row">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item">
+              <a id="previousEmp" class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item disabled"><a class="page-link" href="#">${MONTH[currentMonth]}</a></li>            
+            <li class="page-item">
+              <a id="nextEmp" class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
-      <div class="col-md-3">
-          <div class="card">
-              <img src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg"
-                  class="card-img-top" alt="...">
-              <div class="card-body">
-                  <p class="card-text">Happy Birthday John Do</p>
-                  <p class="card-text">September 20</p>
-              </div>
-          </div>
-      </div>
-    </div>
     </section>`;
+    let prev = document.getElementById('previousEmp');
+    prev?.addEventListener('click', (e:Event) => this.renderCurrentData((this.current -1)%11));
+    let next = document.getElementById('nextEmp');
+    next?.addEventListener('click', (e:Event) => this.renderCurrentData((this.current + 1)%11));
+
   }
 
+
+  private generateHtml(currentMonth: number) {
+    const MONTH = ["January", "February", "March", "April", "May", "June", "July", "August", "Septemeber", "October", "November", "December"];
+    let empHtml = '';
+
+    const filteredEmps = this.employees.filter((e) => {
+      //console.log('Comparisons', parseInt(e.Month), currentMonth);
+      //return (parseInt(e.Month) - 1) == currentMonth;
+      return (new Date(e.DateOfBirth)).getMonth() == currentMonth;
+    });
+    console.log('Sorted Employees', filteredEmps);
+
+    const emps = filteredEmps.sort((e1, e2) => {
+      const d1 = (new Date(e1.DateOfBirth)).getDate;
+      const d2 = (new Date(e2.DateOfBirth)).getDate;
+      // if (e1.Day < e2.Day)
+      //   return -1;
+      // if (e1.Day > e2.Day)
+      //   return 1;
+      if (d1 < d2)
+        return -1;
+      if (d1 > d2)
+        return 1;
+      return 0;
+    });
+    console.log('Sorted Employees', emps);
+
+
+    for (let e of emps) {
+
+      const dob = new Date(e.DateOfBirth);
+      const date = dob.getDate();
+      const month = dob.getMonth();
+
+      empHtml += `<div class="col-md-3 mb-2">
+                      <div class="card">
+                          <img src="${this.context.pageContext.site.absoluteUrl}/_layouts/15/userphoto.aspx?size=L&username=${e.Employee.EMail}"
+                              class="card-img-top" alt="...">
+                          <div class="card-body">
+                              <p class="card-text">Happy Birthday, ${e.Employee.Title}</p>
+                              <p class="card-text">${MONTH[month]} ${date}</p>
+                          </div>
+                      </div>
+                  </div>`;
+
+    }
+    return empHtml;
+  }
+*/
   protected onInit(): Promise<void> {
     let service = new SPCrud(this.context);
 
-    return service.readItems('EmployeeBirthDays', '?$select=*,Employee/Title,Employee/EMail&$expand=Employee')
+    return service.readItems('EmployeeBirthDays', '?$select=*,Employee/Title,Employee/EMail&$expand=Employee&$top=1000')
       .then(response => {
         console.log('Employees are .... ', response.value);
         this.employees = response.value;
       })
-    // return this._getEnvironmentMessage().then(message => {
-    //   //this._environmentMessage = message;
-    // });
   }
 
 
