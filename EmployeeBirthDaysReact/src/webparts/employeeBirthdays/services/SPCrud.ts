@@ -13,4 +13,11 @@ export default class SPCrud {
             .then(response => response.json())
     }
 
+    readItemsById(listId: string, oData: string) {
+        let url = `${this.context.pageContext.web.absoluteUrl}/_api/web/lists(guid'${listId}')/items${oData}`;
+         
+        return this.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
+            .then(response => response.json())
+    }
+
 }
